@@ -95,6 +95,8 @@ def genetic_search(
             archive.add(rec)
             if best is None or hr > best.hit_rate:
                 best = rec
+    if archive.entries:
+        best = max(archive.entries, key=lambda e: e.hit_rate)
     return SearchResult(best=best, evaluations=budget.used, rejected=budget.rejected)
 
 

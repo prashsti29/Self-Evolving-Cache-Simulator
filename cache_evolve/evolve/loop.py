@@ -40,7 +40,7 @@ def run_evolution_loop(
     workload_summary: dict[str, float] | None = None,
 ) -> EvolutionOutcome:
     train, held_out = time_ordered_split(trace, train_ratio=0.7)
-    replay = scan_heavy_replay_window(len(held_out), block=min(capacity, 64), rng=rng)
+    replay = scan_heavy_replay_window(len(trace), block=min(capacity, 64), rng=rng)
 
     if not archive.entries:
         from cache_evolve.sandbox.loader import load_policy_class
