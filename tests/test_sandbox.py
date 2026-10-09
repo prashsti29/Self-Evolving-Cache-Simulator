@@ -58,6 +58,24 @@ class P(Policy):
     assert not sb.ok
 
 
+def test_invalid_eviction_still_runs_with_fallback():
+    src = """
+from cache_evolve.sim.policy import Policy
+class P(Policy):
+    def __init__(self, c):
+        super().__init__(c)
+        self.k = []
+    def on_hit(self, key):
+        pass
+    def on_miss(self, key):
+        self.k.append(key)
+    def evict(self):
+        return 999
+"""
+    sb = run_policy_in_process(src, [1, 2, 1], 1)
+    assert sb.ok
+
+
 def test_memory_bomb_rejected_or_killed():
     src = """
 from cache_evolve.sim.policy import Policy

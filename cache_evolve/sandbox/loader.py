@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import OrderedDict, defaultdict, deque
 from typing import Type
 
 from cache_evolve.sim.policy import Policy
@@ -9,7 +10,12 @@ from .validator import PolicyValidationError, validate_policy_source
 
 def load_policy_class(source: str) -> Type[Policy]:
     validate_policy_source(source)
-    namespace: dict = {"Policy": Policy}
+    namespace: dict = {
+        "Policy": Policy,
+        "OrderedDict": OrderedDict,
+        "defaultdict": defaultdict,
+        "deque": deque,
+    }
     try:
         exec(compile(source, "<policy>", "exec"), namespace, namespace)
     except Exception as exc:
